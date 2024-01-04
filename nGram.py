@@ -19,7 +19,7 @@ class dictio:
         self.sortedHashes = np.ndarray(self.unig.hashcodes.shape, dtype=np.int64)
         par_offset = np.arange(start=0, stop=self.sortedHashes.shape[0], dtype=np.int32)
         if nforgrams == 1: #if we can use existing hashcodes in unig
-            sortidx = np.argsort(self.unig.hashcodes)
+            sortidx = np.argsort(self.unig.hashcodes, kind = 'stable')
             self.sortedHashes = self.unig.hashcodes[sortidx]
         else:
             gen = self.unig.getiter()
@@ -29,7 +29,7 @@ class dictio:
                     hcs += ' ' + self.unig.get(offset+i)
                 hashcode = hash(hcs)
                 self.sortedHashes[offset] = hashcode
-            sortidx = np.argsort(self.sortedHashes)
+            sortidx = np.argsort(self.sortedHashes, kind = 'stable')
             self.sortedHashes = self.sortedHashes[sortidx]
         self.par_offset = par_offset[sortidx]
 
